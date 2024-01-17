@@ -18,5 +18,10 @@ class VisionModel extends Model
 {
     public $timestamps = false;
 
-    protected $connection = 'vision';
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->connection = config('database.vision');
+    }
 }
