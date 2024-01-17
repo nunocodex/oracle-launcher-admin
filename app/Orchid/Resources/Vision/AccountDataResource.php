@@ -5,6 +5,7 @@ namespace App\Orchid\Resources\Vision;
 use App\Models\Vision\AccountData;
 use App\Orchid\Resources\VisionResource;
 use App\Orchid\Screens\Layouts\Avatar;
+use Carbon\Carbon;
 use Orchid\Crud\ResourceRequest;
 use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Input;
@@ -56,16 +57,15 @@ class AccountDataResource extends VisionResource
 
             Input::make('last_ip_address')
                 ->title(__('Last IP Address'))
-                ->required(),
+                ->disabled(),
 
             Input::make('access_token')
                 ->title(__('Access Token'))
-                ->required(),
+                ->disabled(),
 
             Input::make('token_valid_until')
                 ->title(__('Token Valid Until'))
-                ->type('number')
-                ->required(),
+                ->disabled(),
 
             Input::make('public_nickname')
                 ->title(__('Public Nickname'))
@@ -91,7 +91,8 @@ class AccountDataResource extends VisionResource
 
             TD::make('last_ip_address', __('Last IP Address')),
             TD::make('access_token', __('Access Token')),
-            TD::make('token_valid_until', __('Token Valid Until')),
+            TD::make('token_valid_until', __('Token Valid Until'))
+                ->render(fn(AccountData $model) => Carbon::parse($model->token_valid_until)->format('Y-m-d H:i')),
 
             TD::make('public_nickname', __('Public Nickname'))
                 ->cantHide(),
@@ -123,7 +124,7 @@ class AccountDataResource extends VisionResource
         $inputs = $request->except([
             'avatar'
         ]);
-
+        
         $model->forceFill($inputs)->save();
         $model->avatar->image_url = $request->input('avatar.image_url');
         $model->avatar->save();
