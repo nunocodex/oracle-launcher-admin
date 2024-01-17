@@ -3,6 +3,7 @@
 namespace App\Models\Vision;
 
 use App\Models\VisionModel;
+use App\Orchid\Presenters\Vision\AvatarPresenter;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -68,6 +69,11 @@ class AccountData extends VisionModel
 
     public function avatar(): BelongsTo
     {
-        return $this->belongsTo(Avatar::class);
+        return $this->belongsTo(Avatar::class, 'id', 'account_id');
+    }
+
+    public function presenter(): AvatarPresenter
+    {
+        return new AvatarPresenter($this->avatar);
     }
 }

@@ -4,6 +4,9 @@ namespace App\Orchid\Resources\Vision;
 
 use App\Models\Vision\AccountData;
 use App\Orchid\Resources\VisionResource;
+use App\Orchid\Screens\Layouts\Avatar;
+use Orchid\Crud\ResourceRequest;
+use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
@@ -35,6 +38,13 @@ class AccountDataResource extends VisionResource
     public function fields(): array
     {
         return [
+            Cropper::make('avatar.image_url')
+                ->targetUrl()
+                ->width(80)
+                ->height(80)
+                ->title('Avatar')
+                ->required(),
+
             Input::make('account')
                 ->title(__('Account'))
                 ->required(),
@@ -70,6 +80,10 @@ class AccountDataResource extends VisionResource
     public function columns(): array
     {
         return [
+            TD::make('avatar.image_url', __('Avatar'))
+                ->render(fn(AccountData $model) => new Avatar($model->presenter()))
+                ->cantHide(),
+
             TD::make('account', __('Account'))
                 ->cantHide(),
             TD::make('email', __('Email'))
@@ -102,5 +116,16 @@ class AccountDataResource extends VisionResource
     public function filters(): array
     {
         return [];
+    }
+
+    public function onSave(ResourceRequest $request, AccountData $model): void
+    {
+        $inputs = $request->except([
+            'avatar'
+        ]);
+
+        $model->forceFill($inputs)->save();
+        $model->avatar->image_url = $request->input('avatar.image_url');
+        $model->avatar->save();
     }
 }

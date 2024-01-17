@@ -53,11 +53,6 @@ class PlatformProvider extends OrchidServiceProvider
                 ->permission('platform.vision.accounts')
                 ->title(__('Vision'))
                 ->list([
-                    Menu::make(__('Avatars'))
-                        ->route('platform.resource.list', [
-                            'resource' => 'avatar-resources'
-                        ]),
-
                     Menu::make(__('Inventories'))
                         ->route('platform.resource.list', [
                             'resource' => 'account-inventory-resources'
