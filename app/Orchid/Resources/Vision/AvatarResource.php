@@ -6,6 +6,8 @@ use App\Models\Vision\AccountData;
 use App\Models\Vision\Avatar;
 use App\Orchid\Resources\VisionResource;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Picture;
 use Orchid\Screen\Fields\Relation;
@@ -24,6 +26,16 @@ class AvatarResource extends VisionResource
     public static function permission(): ?string
     {
         return 'platform.vision.accounts';
+    }
+
+    public function rules(Model $model): array
+    {
+        return [
+            'account_id' => [
+                'required',
+                Rule::unique(static::$model, 'account_id')->ignore($model)
+            ]
+        ];
     }
 
     /**
