@@ -126,8 +126,12 @@ return [
      */
 
     'resource' => [
-        'stylesheets' => [],
-        'scripts' => [],
+        'stylesheets' => [
+            '/css/orchid.css'
+        ],
+        'scripts' => [
+            '/js/orchid.js'
+        ],
     ],
 
     /*
