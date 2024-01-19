@@ -6,6 +6,8 @@ use App\Models\Vision\AccountData;
 use App\Orchid\Resources\VisionResource;
 use App\Orchid\Screens\Layouts\Avatar;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 use Orchid\Crud\ResourceRequest;
 use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Input;
@@ -29,6 +31,18 @@ class AccountDataResource extends VisionResource
     public static function nameWithoutResource(): string
     {
         return __('Account');
+    }
+
+    public function rules(Model $model): array
+    {
+        return [
+            'public_nickname' => [
+                'required',
+                Rule::unique(static::$model, 'public_nickname')
+                    ->ignore($model)
+                    ->whereNot('public_nickname', 'not set..')
+            ]
+        ];
     }
 
     /**
@@ -92,7 +106,7 @@ class AccountDataResource extends VisionResource
             TD::make('last_ip_address', __('Last IP Address')),
             TD::make('access_token', __('Access Token')),
             TD::make('token_valid_until', __('Token Valid Until'))
-                ->render(fn(AccountData $model) => Carbon::parse($model->token_valid_until)->format('Y-m-d H:i')),
+                ->render(fn(AccountData $model) => Carbon::parse($model->token_valid_until)->format(config('app.default_datetime_format'))),
 
             TD::make('public_nickname', __('Public Nickname'))
                 ->cantHide(),
@@ -121,11 +135,10 @@ class AccountDataResource extends VisionResource
 
     public function onSave(ResourceRequest $request, AccountData $model): void
     {
-        $inputs = $request->except([
+        $model->forceFill($request->except([
             'avatar'
-        ]);
-        
-        $model->forceFill($inputs)->save();
+        ]))->save();
+
         $model->avatar->image_url = $request->input('avatar.image_url');
         $model->avatar->save();
     }

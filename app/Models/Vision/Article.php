@@ -68,4 +68,9 @@ class Article extends VisionModel
     {
         return $this->belongsTo(ArticlePosition::class, 'position', 'id');
     }
+
+    public function getPictureThumbnailAttribute(): string
+    {
+        return '<img src="' . $this->picture_url . '" style="width:40px; height:40px;">';
+    }
 }

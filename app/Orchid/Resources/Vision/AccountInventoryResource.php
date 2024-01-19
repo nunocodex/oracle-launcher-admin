@@ -2,9 +2,13 @@
 
 namespace App\Orchid\Resources\Vision;
 
+use App\Models\Vision\AccountData;
 use App\Models\Vision\AccountInventory;
+use App\Models\Vision\Reward;
 use App\Orchid\Resources\VisionResource;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Fields\DateTimer;
+use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
 
@@ -29,7 +33,21 @@ class AccountInventoryResource extends VisionResource
      */
     public function fields(): array
     {
-        return [];
+        return [
+            Relation::make('account_id')
+                ->fromModel(AccountData::class, 'account')
+                ->title(__('Account')),
+
+            Relation::make('reward_id')
+                ->fromModel(Reward::class, 'title')
+                ->title(__('Reward')),
+
+            DateTimer::make('acquired_on')
+                ->format24hr()
+                ->enableTime()
+                ->title(__('Acquired On'))
+                ->required()
+        ];
     }
 
     /**

@@ -8,8 +8,10 @@ use App\Models\Vision\ArticlePosition;
 use App\Orchid\Resources\VisionResource;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Picture;
 use Orchid\Screen\Fields\Relation;
+use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
 
@@ -43,16 +45,31 @@ class ArticleResource extends VisionResource
         return [
             Relation::make('author_id')
                 ->fromModel(AccountData::class, 'account')
-                ->title(__('Account')),
+                ->title(__('Account'))
+                ->required(),
 
             Picture::make('picture_url')
                 ->targetUrl()
                 ->title('Picture')
                 ->required(),
 
+            Input::make('redirect_url')
+                ->type('url')
+                ->title(__('Redirect URL'))
+                ->required(),
+
+            Input::make('title')
+                ->title(__('Title'))
+                ->required(),
+
+            TextArea::make('content')
+                ->title(__('Content'))
+                ->required(),
+
             Relation::make('position')
                 ->fromModel(ArticlePosition::class, 'name')
-                ->title(__('Position')),
+                ->title(__('Position'))
+                ->required(),
         ];
     }
 
@@ -73,15 +90,10 @@ class ArticleResource extends VisionResource
                         ]);
                 }),
 
-            TD::make('title', __('Title'))
-                ->render(function (Article $model) {
-                    return $model->title;
-                }),
+            TD::make('title', __('Title')),
 
             TD::make('picture_url', __('Picture'))
-                ->render(function (Article $model) {
-                    return '<img src="' . $model->picture_url . '" style="width:80px; height:80px;">';
-                })
+                ->render(fn(Article $model) => $model->picture_thumbnail)
                 ->cantHide(),
 
             TD::make('location', __('Position'))
@@ -94,9 +106,7 @@ class ArticleResource extends VisionResource
                 }),
 
             TD::make('date', 'Date')
-                ->render(function ($model) {
-                    return $model->date->toDateTimeString();
-                }),
+                ->render(fn(Article $model) => $model->date->toDateTimeString()),
 
         ];
     }

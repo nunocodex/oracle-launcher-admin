@@ -3,23 +3,23 @@
 namespace App\Models\Vision;
 
 use App\Models\VisionModel;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Orchid\Attachment\Attachable;
-use Orchid\Attachment\Models\Attachment;
 use Orchid\Filters\Filterable;
+use Orchid\Filters\HttpFilter;
 use Orchid\Screen\AsSource;
 
 /**
  * App\Models\Vision\Reward
  *
- * @property-read Attachment|null $picture
- * @method static \Illuminate\Database\Eloquent\Builder|Reward defaultSort(string $column, string $direction = 'asc')
- * @method static \Illuminate\Database\Eloquent\Builder|Reward filters(?mixed $kit = null, ?\Orchid\Filters\HttpFilter $httpFilter = null)
- * @method static \Illuminate\Database\Eloquent\Builder|Reward filtersApply(iterable $filters = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Reward filtersApplySelection($class)
- * @method static \Illuminate\Database\Eloquent\Builder|Reward newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Reward newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Reward query()
+ * @method static Builder|Reward defaultSort(string $column, string $direction = 'asc')
+ * @method static Builder|Reward filters(?mixed $kit = null, ?HttpFilter $httpFilter = null)
+ * @method static Builder|Reward filtersApply(iterable $filters = [])
+ * @method static Builder|Reward filtersApplySelection($class)
+ * @method static Builder|Reward newModelQuery()
+ * @method static Builder|Reward newQuery()
+ * @method static Builder|Reward query()
  * @property int $id
  * @property string $title
  * @property string $picture_url
@@ -27,19 +27,19 @@ use Orchid\Screen\AsSource;
  * @property string|null $soap_command available fields: {ACCOUNT_NAME}, {ACCOUNT_ID}, {PLAYER_NAME}, {PLAYER_GUID}, {INPUT}
  * @property int $requires_player
  * @property int $requires_input
- * @method static \Illuminate\Database\Eloquent\Builder|Reward whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Reward whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Reward wherePictureUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Reward whereRequiresInput($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Reward whereRequiresPlayer($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Reward whereSoapCommand($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Reward whereTitle($value)
- * @mixin \Eloquent
+ * @method static Builder|Reward whereDescription($value)
+ * @method static Builder|Reward whereId($value)
+ * @method static Builder|Reward wherePictureUrl($value)
+ * @method static Builder|Reward whereRequiresInput($value)
+ * @method static Builder|Reward whereRequiresPlayer($value)
+ * @method static Builder|Reward whereSoapCommand($value)
+ * @method static Builder|Reward whereTitle($value)
+ * @mixin Eloquent
  */
 class Reward extends VisionModel
 {
     use AsSource, Filterable, Attachable;
-    
+
     protected $fillable = [
         'title',
         'picture_url',
@@ -49,8 +49,8 @@ class Reward extends VisionModel
         'requires_input',
     ];
 
-    public function picture(): HasOne
+    public function getPictureThumbnailAttribute(): string
     {
-        return $this->hasOne(Attachment::class, 'id', 'picture_url');
+        return '<img src="' . $this->picture_url . '" style="width:40px; height:40px;">';
     }
 }

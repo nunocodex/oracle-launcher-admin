@@ -4,8 +4,10 @@ namespace App\Orchid\Resources\Vision;
 
 use App\Models\Vision\Event;
 use App\Orchid\Resources\VisionResource;
+use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Picture;
+use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
 
@@ -36,7 +38,24 @@ class EventResource extends VisionResource
                 ->title('Picture')
                 ->required(),
 
-            Input::make('title', __('Title'))
+            Input::make('redirect_url')
+                ->type('url')
+                ->title(__('Redirect URL'))
+                ->required(),
+
+            Input::make('title')
+                ->title(__('Title'))
+                ->required(),
+
+            TextArea::make('content')
+                ->title(__('Content'))
+                ->required(),
+
+            DateTimer::make('expiry_date')
+                ->title(__('Expiry Date'))
+                ->enableTime()
+                ->format24hr()
+                ->required()
         ];
     }
 
@@ -49,12 +68,13 @@ class EventResource extends VisionResource
     {
         return [
             TD::make('picture_url', __('Picture'))
-                ->render(function (Event $model) {
-                    return '<img src="' . $model->picture_url . '" style="width:80px; height:80px;">';
-                })
+                ->render(fn(Event $model) => $model->picture_thumbnail)
                 ->cantHide(),
 
             TD::make('title', __('Title')),
+
+            TD::make('expiry_date', __('Expiry Date'))
+                ->render(fn(Event $model) => $model->expiry_date->toDateTimeString())
         ];
     }
 

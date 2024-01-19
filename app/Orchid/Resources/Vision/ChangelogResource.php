@@ -3,8 +3,16 @@
 namespace App\Orchid\Resources\Vision;
 
 use App\Models\Vision\Changelog;
+use App\Models\Vision\ChangelogCategory;
 use App\Orchid\Resources\VisionResource;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Fields\Cropper;
+use Orchid\Screen\Fields\DateTimer;
+use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Relation;
+use Orchid\Screen\Fields\TextArea;
+use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
 
 class ChangelogResource extends VisionResource
@@ -25,10 +33,37 @@ class ChangelogResource extends VisionResource
      * Get the fields displayed by the resource.
      *
      * @return array
+     * @throws BindingResolutionException
      */
     public function fields(): array
     {
-        return [];
+        return [
+            Relation::make('category')
+                ->fromModel(ChangelogCategory::class, 'title')
+                ->title(__('Category'))
+                ->required(),
+
+            Cropper::make('icon_url')
+                ->targetUrl()
+                ->width(80)
+                ->height(80)
+                ->title('Icon')
+                ->required(),
+
+            Input::make('title')
+                ->title(__('Title'))
+                ->required(),
+
+            TextArea::make('description')
+                ->title(__('Description'))
+                ->required(),
+
+            DateTimer::make('date')
+                ->enableTime()
+                ->format24hr()
+                ->title(__('Date'))
+                ->required()
+        ];
     }
 
     /**
@@ -48,15 +83,14 @@ class ChangelogResource extends VisionResource
                         ]);
                 }),
 
-            TD::make('title', __('Title'))
-                ->render(function (Changelog $model) {
-                    return $model->title;
-                }),
+            TD::make('icon_url', __('Icon'))
+                ->render(fn(Changelog $model) => $model->icon_thumbnail)
+                ->cantHide(),
+
+            TD::make('title', __('Title')),
 
             TD::make('date', __('Date'))
-                ->render(function (Changelog $model) {
-                    return $model->date->toDateTimeString();
-                }),
+                ->render(fn(Changelog $model) => $model->date->toDateTimeString()),
         ];
     }
 

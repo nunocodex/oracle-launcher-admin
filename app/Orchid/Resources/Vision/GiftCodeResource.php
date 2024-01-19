@@ -7,6 +7,7 @@ use App\Models\Vision\Reward;
 use App\Orchid\Resources\VisionResource;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Orchid\Screen\Actions\Link;
+use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Sight;
@@ -42,6 +43,17 @@ class GiftCodeResource extends VisionResource
             Relation::make('reward_id')
                 ->fromModel(Reward::class, 'title')
                 ->title(__('Reward')),
+
+            Input::make('redeems_allowed')
+                ->type('number')
+                ->title(__('Redeems Allowed'))
+                ->required(),
+
+            DateTimer::make('valid_until')
+                ->format24hr()
+                ->enableTime()
+                ->title(__('Valid Until'))
+                ->required()
         ];
     }
 
@@ -64,6 +76,11 @@ class GiftCodeResource extends VisionResource
                             'id' => $model->reward->id
                         ]);
                 }),
+
+            TD::make('redeems_allowed', __('Redeems Allowed')),
+
+            TD::make('valid_until', __('Valid Until'))
+                ->render(fn(GiftCode $model) => $model->valid_until->toDateTimeString())
         ];
     }
 

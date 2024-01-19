@@ -71,9 +71,7 @@ class RewardResource extends VisionResource
             TD::make('title', __('Title'))
                 ->cantHide(),
             TD::make('picture_url', __('Picture'))
-                ->render(function (Reward $model) {
-                    return '<img src="' . $model->picture_url . '" style="width:80px; height:80px;">';
-                })
+                ->render(fn(Reward $model) => $model->picture_thumbnail)
                 ->cantHide(),
         ];
     }
