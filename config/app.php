@@ -186,4 +186,8 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    /*
+     * Format used for not DATETIME db fields
+     */
+    'default_datetime_format' => 'Y-m-d H:i:s'
 ];
