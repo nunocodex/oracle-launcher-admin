@@ -39,6 +39,7 @@ use Orchid\Screen\AsSource;
  * @method static Builder|Article wherePosition($value)
  * @method static Builder|Article whereRedirectUrl($value)
  * @method static Builder|Article whereTitle($value)
+ * @property-read string $picture_thumbnail
  * @mixin Eloquent
  */
 class Article extends VisionModel

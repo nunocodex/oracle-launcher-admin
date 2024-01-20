@@ -112,6 +112,20 @@ class PlatformProvider extends OrchidServiceProvider
                         ])
                 ]),
 
+            Menu::make(__('Login Rewards'))
+                ->icon('bs.gift')
+                ->route('platform.resource.list', [
+                    'resource' => 'login-reward-resources'
+                ])
+                ->permission('platform.vision.login_rewards'),
+
+            Menu::make(__('Messages'))
+                ->icon('bs.gift')
+                ->route('platform.resource.list', [
+                    'resource' => 'message-resources'
+                ])
+                ->permission('platform.vision.messages'),
+
             Menu::make(__('Rewards'))
                 ->icon('bs.gift')
                 ->route('platform.resource.list', [
@@ -140,6 +154,8 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.vision.events', __('Events'))
                 ->addPermission('platform.vision.faqs', __('Faqs'))
                 ->addPermission('platform.vision.gifts', __('Gifts'))
+                ->addPermission('platform.vision.login_rewards', __('Login Rewards'))
+                ->addPermission('platform.vision.messages', __('Messages'))
                 ->addPermission('platform.vision.rewards', __('Rewards'))
         ];
     }

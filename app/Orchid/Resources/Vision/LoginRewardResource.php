@@ -2,29 +2,45 @@
 
 namespace App\Orchid\Resources\Vision;
 
-use App\Models\Vision\AccountData;
-use App\Models\Vision\AccountInventory;
+use App\Models\Vision\LoginReward;
 use App\Models\Vision\Reward;
 use App\Orchid\Resources\VisionResource;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 use Orchid\Screen\Actions\Link;
-use Orchid\Screen\Fields\DateTimer;
+use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
 
-class AccountInventoryResource extends VisionResource
+class LoginRewardResource extends VisionResource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = AccountInventory::class;
+    public static $model = LoginReward::class;
 
     public static function permission(): ?string
     {
-        return 'platform.vision.accounts';
+        return 'platform.vision.login_rewards';
+    }
+
+    public function rules(Model $model): array
+    {
+        return [
+            'month' => [
+                'required',
+                Rule::unique(static::$model, 'day'),
+            ],
+
+            'day' => [
+                'required',
+                Rule::unique(static::$model, 'month'),
+            ]
+        ];
     }
 
     /**
@@ -36,19 +52,24 @@ class AccountInventoryResource extends VisionResource
     public function fields(): array
     {
         return [
-            Relation::make('account_id')
-                ->fromModel(AccountData::class, 'account')
-                ->title(__('Account')),
+            Input::make('month')
+                ->type('number')
+                ->min(1)
+                ->max(12)
+                ->title(__('Month'))
+                ->required(),
+
+            Input::make('day')
+                ->type('number')
+                ->min(1)
+                ->max(31)
+                ->title(__('Day'))
+                ->required(),
 
             Relation::make('reward_id')
                 ->fromModel(Reward::class, 'title')
-                ->title(__('Reward')),
-
-            DateTimer::make('acquired_on')
-                ->format24hr()
-                ->enableTime()
-                ->title(__('Acquired On'))
-                ->required()
+                ->title(__('Reward'))
+                ->required(),
         ];
     }
 
@@ -60,26 +81,16 @@ class AccountInventoryResource extends VisionResource
     public function columns(): array
     {
         return [
-            TD::make('account_id', __('Account'))
-                ->render(function (AccountInventory $model) {
-                    return Link::make($model->account->account)
-                        ->route('platform.resource.edit', [
-                            'resource' => 'account-data-resources',
-                            'id' => $model->account->id
-                        ]);
-                }),
-
+            TD::make('month', __('Month')),
+            TD::make('day', __('Day')),
             TD::make('reward_id', __('Reward'))
-                ->render(function (AccountInventory $model) {
+                ->render(function (LoginReward $model) {
                     return Link::make($model->reward->title)
                         ->route('platform.resource.edit', [
                             'resource' => 'reward-resources',
                             'id' => $model->reward->id
                         ]);
                 }),
-
-            TD::make('acquired_on', __('Acquired On'))
-                ->render(fn(AccountInventory $model) => $model->acquired_on->toDateTimeString()),
         ];
     }
 

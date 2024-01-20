@@ -35,6 +35,7 @@ use Orchid\Screen\AsSource;
  * @method static Builder|Changelog whereIconUrl($value)
  * @method static Builder|Changelog whereId($value)
  * @method static Builder|Changelog whereTitle($value)
+ * @property-read string $icon_thumbnail
  * @mixin Eloquent
  */
 class Changelog extends VisionModel

@@ -1,3 +1,15 @@
+# Pre Install
+
+Copy this project to your root web source.
+
+# Install
+
+Follow the Laravel install procedure.
+
+# Post Install
+
+Run command shell `composer install`
+
 # Setup
 
 Setup `.env` with vision database:

@@ -33,6 +33,7 @@ use Orchid\Screen\AsSource;
  * @method static Builder|Event wherePictureUrl($value)
  * @method static Builder|Event whereRedirectUrl($value)
  * @method static Builder|Event whereTitle($value)
+ * @property-read string $picture_thumbnail
  * @mixin Eloquent
  */
 class Event extends VisionModel

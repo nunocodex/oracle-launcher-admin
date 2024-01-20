@@ -34,6 +34,7 @@ use Orchid\Screen\AsSource;
  * @method static Builder|Reward whereRequiresPlayer($value)
  * @method static Builder|Reward whereSoapCommand($value)
  * @method static Builder|Reward whereTitle($value)
+ * @property-read string $picture_thumbnail
  * @mixin Eloquent
  */
 class Reward extends VisionModel
