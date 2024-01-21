@@ -2,12 +2,11 @@
 
 namespace App\Models\Vision;
 
-use App\Models\VisionModel;
+use App\Models\VisionReadOnlyModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
-use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
@@ -31,9 +30,9 @@ use Orchid\Screen\AsSource;
  * @method static Builder|AccountInventory whereRewardId($value)
  * @mixin Eloquent
  */
-class AccountInventory extends VisionModel
+class AccountInventory extends VisionReadOnlyModel
 {
-    use AsSource, Filterable, Attachable;
+    use AsSource, Filterable;
 
     protected $primaryKey = 'account_id';
 

@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
@@ -46,7 +45,7 @@ use Orchid\Screen\AsSource;
  */
 class AccountData extends VisionModel
 {
-    use AsSource, Filterable, Attachable;
+    use AsSource, Filterable;
 
     protected $fillable = [
         'account',

@@ -27,6 +27,8 @@ use Orchid\Screen\AsSource;
  * @method static Builder|LoginReward whereMonth($value)
  * @method static Builder|LoginReward whereRewardId($value)
  * @property-read Reward $reward
+ * @property int $id
+ * @method static Builder|LoginReward whereId($value)
  * @mixin Eloquent
  */
 class LoginReward extends VisionModel

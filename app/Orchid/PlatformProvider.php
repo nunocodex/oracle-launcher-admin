@@ -113,25 +113,45 @@ class PlatformProvider extends OrchidServiceProvider
                 ]),
 
             Menu::make(__('Login Rewards'))
-                ->icon('bs.gift')
+                ->icon('bs.box2-heart')
                 ->route('platform.resource.list', [
                     'resource' => 'login-reward-resources'
                 ])
-                ->permission('platform.vision.login_rewards'),
+                ->permission('platform.vision.login_rewards')
+                ->list([
+                    Menu::make(__('Claimed'))
+                        ->route('platform.resource.list', [
+                            'resource' => 'login-claimed-reward-resources'
+                        ])
+                ]),
 
             Menu::make(__('Messages'))
-                ->icon('bs.gift')
+                ->icon('bs.chat-left-text')
                 ->route('platform.resource.list', [
                     'resource' => 'message-resources'
                 ])
                 ->permission('platform.vision.messages'),
 
             Menu::make(__('Rewards'))
-                ->icon('bs.gift')
+                ->icon('bs.box2-heart')
                 ->route('platform.resource.list', [
                     'resource' => 'reward-resources'
                 ])
                 ->permission('platform.vision.rewards'),
+
+            Menu::make(__('Sliders'))
+                ->icon('bs.file-earmark-easel')
+                ->route('platform.resource.list', [
+                    'resource' => 'slider-resources'
+                ])
+                ->permission('platform.vision.sliders'),
+
+            Menu::make(__('Teleports'))
+                ->icon('bs.arrows-move')
+                ->route('platform.resource.list', [
+                    'resource' => 'teleport-resources'
+                ])
+                ->permission('platform.vision.teleports'),
         ];
     }
 
@@ -157,6 +177,8 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.vision.login_rewards', __('Login Rewards'))
                 ->addPermission('platform.vision.messages', __('Messages'))
                 ->addPermission('platform.vision.rewards', __('Rewards'))
+                ->addPermission('platform.vision.sliders', __('Sliders'))
+                ->addPermission('platform.vision.teleports', __('Teleports'))
         ];
     }
 }

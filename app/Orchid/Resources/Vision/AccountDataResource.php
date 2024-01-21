@@ -36,6 +36,12 @@ class AccountDataResource extends VisionResource
     public function rules(Model $model): array
     {
         return [
+            'account' => [
+                'required',
+                Rule::unique(static::$model, 'account')
+                    ->ignore($model)
+            ],
+
             'public_nickname' => [
                 'required',
                 Rule::unique(static::$model, 'public_nickname')

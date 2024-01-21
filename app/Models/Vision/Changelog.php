@@ -7,7 +7,6 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
-use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Filters\HttpFilter;
 use Orchid\Screen\AsSource;
@@ -40,8 +39,8 @@ use Orchid\Screen\AsSource;
  */
 class Changelog extends VisionModel
 {
-    use AsSource, Filterable, Attachable;
-
+    use AsSource, Filterable;
+    
     protected $table = 'changelog';
 
     protected $fillable = [

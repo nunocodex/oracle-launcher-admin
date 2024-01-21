@@ -4,7 +4,7 @@ Copy this project to your root web source.
 
 # Install
 
-Follow the Laravel install procedure.
+Follow the Laravel install/setup procedure.
 
 # Post Install
 

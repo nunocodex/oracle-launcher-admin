@@ -3,41 +3,23 @@
 namespace App\Orchid\Resources\Vision;
 
 use App\Models\Vision\AccountData;
-use App\Models\Vision\Avatar;
+use App\Models\Vision\LoginClaimedReward;
 use App\Orchid\Resources\VisionResource;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Validation\Rule;
 use Orchid\Screen\Actions\Link;
-use Orchid\Screen\Fields\Picture;
+use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
 
-class AvatarResource extends VisionResource
+class LoginClaimedRewardResource extends VisionResource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = Avatar::class;
-
-    public static function permission(): ?string
-    {
-        return 'platform.vision.accounts';
-    }
-
-    public function rules(Model $model): array
-    {
-        return [
-            'account_id' => [
-                'required',
-                Rule::unique(static::$model, 'account_id')
-                    ->ignore($model)
-            ]
-        ];
-    }
+    public static $model = LoginClaimedReward::class;
 
     /**
      * Get the fields displayed by the resource.
@@ -50,12 +32,20 @@ class AvatarResource extends VisionResource
         return [
             Relation::make('account_id')
                 ->fromModel(AccountData::class, 'account')
-                ->title(__('Account')),
+                ->title(__('Account'))
+                ->required(),
 
-            Picture::make('image_url')
-                ->targetUrl()
-                ->title('Image')
-                ->required()
+            Input::make('month')
+                ->type('number')
+                ->min(1)
+                ->max(12)
+                ->title(__('Month')),
+
+            Input::make('day')
+                ->type('number')
+                ->min(1)
+                ->max(31)
+                ->title(__('Day'))
         ];
     }
 
@@ -68,7 +58,7 @@ class AvatarResource extends VisionResource
     {
         return [
             TD::make('account_id', __('Account'))
-                ->render(function (Avatar $model) {
+                ->render(function (LoginClaimedReward $model) {
                     return Link::make($model->account->account)
                         ->route('platform.resource.edit', [
                             'resource' => 'account-data-resources',
@@ -76,11 +66,8 @@ class AvatarResource extends VisionResource
                         ]);
                 }),
 
-            TD::make('image_url', __('Image'))
-                ->render(function (Avatar $model) {
-                    return '<img src="' . $model->image_url . '" style="width:80px; height:80px;">';
-                })
-                ->cantHide(),
+            TD::make('month', __('Month')),
+            TD::make('day', __('Day')),
         ];
     }
 

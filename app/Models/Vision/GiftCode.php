@@ -7,7 +7,6 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
-use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Filters\HttpFilter;
 use Orchid\Screen\AsSource;
@@ -37,10 +36,8 @@ use Orchid\Screen\AsSource;
  */
 class GiftCode extends VisionModel
 {
-    use AsSource, Filterable, Attachable;
-
-    protected $table = 'gift_codes';
-
+    use AsSource, Filterable;
+    
     protected $fillable = [
         'code',
         'reward_id',

@@ -4,6 +4,8 @@ namespace App\Orchid\Resources\Vision;
 
 use App\Models\Vision\GiftRedeem;
 use App\Orchid\Resources\VisionResource;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
@@ -87,5 +89,20 @@ class GiftRedeemResource extends VisionResource
     public function filters(): array
     {
         return [];
+    }
+
+    public function rules(Model $model): array
+    {
+        return [
+            'user_id' => [
+                'required',
+                Rule::unique(static::$model, 'gift_id'),
+            ],
+
+            'gift_id' => [
+                'required',
+                Rule::unique(static::$model, 'user_id'),
+            ]
+        ];
     }
 }

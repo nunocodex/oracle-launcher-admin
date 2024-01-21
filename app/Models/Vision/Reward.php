@@ -5,7 +5,6 @@ namespace App\Models\Vision;
 use App\Models\VisionModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
-use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Filters\HttpFilter;
 use Orchid\Screen\AsSource;
@@ -39,7 +38,7 @@ use Orchid\Screen\AsSource;
  */
 class Reward extends VisionModel
 {
-    use AsSource, Filterable, Attachable;
+    use AsSource, Filterable;
 
     protected $fillable = [
         'title',

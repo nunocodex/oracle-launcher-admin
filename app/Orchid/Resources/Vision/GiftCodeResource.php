@@ -6,6 +6,8 @@ use App\Models\Vision\GiftCode;
 use App\Models\Vision\Reward;
 use App\Orchid\Resources\VisionResource;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Input;
@@ -42,7 +44,8 @@ class GiftCodeResource extends VisionResource
 
             Relation::make('reward_id')
                 ->fromModel(Reward::class, 'title')
-                ->title(__('Reward')),
+                ->title(__('Reward'))
+                ->required(),
 
             Input::make('redeems_allowed')
                 ->type('number')
@@ -102,5 +105,16 @@ class GiftCodeResource extends VisionResource
     public function filters(): array
     {
         return [];
+    }
+
+    public function rules(Model $model): array
+    {
+        return [
+            'code' => [
+                'required',
+                Rule::unique(static::$model, 'code')
+                    ->ignore($model),
+            ]
+        ];
     }
 }

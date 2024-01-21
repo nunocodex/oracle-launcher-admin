@@ -89,6 +89,16 @@ class MessageResource extends VisionResource
                 }),
 
             TD::make('title', __('Title')),
+
+            TD::make('parent_id', __('Parent'))
+                ->render(function (Message $model) {
+                    return $model->parent_id ? Link::make($model->parent->title)
+                        ->route('platform.resource.edit', [
+                            'resource' => 'message-resources',
+                            'id' => $model->parent_id
+                        ]) : '';
+                }),
+
             TD::make('date_edited', __('Date Edited')),
             TD::make('seen', __('Seen')),
             TD::make('date_seen', __('Date Seen')),

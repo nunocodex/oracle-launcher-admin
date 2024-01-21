@@ -5,15 +5,15 @@ namespace App\Models\Vision;
 use App\Models\VisionModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
-use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
+use Orchid\Filters\HttpFilter;
 use Orchid\Screen\AsSource;
 
 /**
  * App\Models\Vision\Faq
  *
  * @method static Builder|Faq defaultSort(string $column, string $direction = 'asc')
- * @method static Builder|Faq filters(?mixed $kit = null, ?\Orchid\Filters\HttpFilter $httpFilter = null)
+ * @method static Builder|Faq filters(?mixed $kit = null, ?HttpFilter $httpFilter = null)
  * @method static Builder|Faq filtersApply(iterable $filters = [])
  * @method static Builder|Faq filtersApplySelection($class)
  * @method static Builder|Faq newModelQuery()
@@ -29,8 +29,8 @@ use Orchid\Screen\AsSource;
  */
 class Faq extends VisionModel
 {
-    use AsSource, Filterable, Attachable;
-
+    use AsSource, Filterable;
+    
     protected $table = 'faq';
 
     protected $fillable = [

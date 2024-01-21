@@ -6,7 +6,6 @@ use App\Models\VisionModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
-use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Filters\HttpFilter;
 use Orchid\Screen\AsSource;
@@ -38,8 +37,8 @@ use Orchid\Screen\AsSource;
  */
 class Event extends VisionModel
 {
-    use AsSource, Filterable, Attachable;
-
+    use AsSource, Filterable;
+    
     protected $fillable = [
         'picture_url',
         'redirect_url',
