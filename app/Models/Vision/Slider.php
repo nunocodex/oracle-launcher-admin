@@ -23,6 +23,7 @@ use Orchid\Screen\AsSource;
  * @method static Builder|Slider query()
  * @method static Builder|Slider whereId($value)
  * @method static Builder|Slider whereImageUrl($value)
+ * @property-read string $image_thumbnail
  * @mixin Eloquent
  */
 class Slider extends VisionModel
