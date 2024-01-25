@@ -71,8 +71,8 @@ class AccountData extends VisionModel
         return $this->belongsTo(Avatar::class, 'id', 'account_id');
     }
 
-    public function presenter(): AvatarPresenter
+    public function presenter(): ?AvatarPresenter
     {
-        return new AvatarPresenter($this->avatar);
+        return $this->avatar ? new AvatarPresenter($this->avatar) : null;
     }
 }

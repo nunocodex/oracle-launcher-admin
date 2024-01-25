@@ -101,7 +101,7 @@ class AccountDataResource extends VisionResource
     {
         return [
             TD::make('avatar.image_url', __('Avatar'))
-                ->render(fn(AccountData $model) => new Avatar($model->presenter()))
+                ->render(fn(AccountData $model) => $model->presenter() ? new Avatar($model->presenter()) : '')
                 ->cantHide(),
 
             TD::make('account', __('Account'))
@@ -145,7 +145,14 @@ class AccountDataResource extends VisionResource
             'avatar'
         ]))->save();
 
-        $model->avatar->image_url = $request->input('avatar.image_url');
-        $model->avatar->save();
+        if (!$model->avatar) {
+            $avatar = new \App\Models\Vision\Avatar();
+            $avatar->image_url = $request->input('avatar.image_url');
+            $avatar->account_id = $model->id;
+            $avatar->save();
+        } else {
+            $model->avatar->image_url = $request->input('avatar.image_url');
+            $model->avatar->save();
+        }
     }
 }
