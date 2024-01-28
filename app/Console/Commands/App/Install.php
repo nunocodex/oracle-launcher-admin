@@ -30,6 +30,8 @@ class Install extends Command
     public function handle(): void
     {
         if ($this->confirm('Are you sure you want to application install?', true)) {
+            $this->createEnvIfNotExists();
+
             $this->changeEnv([
                 'APP_NAME' => $this->ask(__('Application Name'), 'Laravel'),
                 'APP_ENV' => $this->choice(__('Application Environment'), [
@@ -50,6 +52,8 @@ class Install extends Command
                 'DB_VISION_USERNAME' => $this->ask(__(__('DB Vision Username')), 'root'),
                 'DB_VISION_PASSWORD' => $this->secret(__('DB Vision Password')) ?? ''
             ]);
+
+            $this->call('key:generate --ansi');
 
             $this->call('orchid:install');
 
@@ -73,6 +77,13 @@ class Install extends Command
             }
 
             $this->info('Application installed successfully.');
+        }
+    }
+
+    protected function createEnvIfNotExists(): void
+    {
+        if (!file_exists(base_path() . '/.env')) {
+            copy(base_path() . '/.env.example', base_path() . '/.env');
         }
     }
 
