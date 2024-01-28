@@ -53,7 +53,7 @@ class Install extends Command
                 'DB_VISION_PASSWORD' => $this->secret(__('DB Vision Password')) ?? ''
             ]);
 
-            $this->call('key:generate --ansi');
+            $this->call('key:generate');
 
             $this->call('orchid:install');
 
