@@ -61,8 +61,6 @@ class Install extends Command
                 '--force' => true
             ]);
 
-            $this->call('orchid:install');
-
             if ($this->confirm('Do you want to create the orchid admin user?', true)) {
                 $this->call('orchid:admin');
             }
