@@ -33,24 +33,24 @@ class Install extends Command
             $this->createEnvIfNotExists();
 
             $this->changeEnv([
-                'APP_NAME' => $this->ask(__('Application Name'), 'Laravel'),
+                'APP_NAME' => $this->ask(__('Application Name'), config('app.name')),
                 'APP_ENV' => $this->choice(__('Application Environment'), [
                     'local', 'development', 'production'
-                ]),
+                ], config('app.env')),
                 'APP_DEBUG' => $this->choice(__('Application Debug'), [
                     'true', 'false'
-                ]),
-                'APP_URL' => $this->ask(__('Application URL'), 'http://localhost'),
-                'DB_HOST' => $this->ask(__('DB Host'), '127.0.0.1'),
-                'DB_PORT' => $this->ask(__('DB Port'), '3306'),
-                'DB_DATABASE' => $this->ask(__(__('DB Database')), 'launcher'),
-                'DB_USERNAME' => $this->ask(__(__('DB Username')), 'root'),
-                'DB_PASSWORD' => $this->secret(__('DB Password')) ?? '',
-                'DB_VISION_HOST' => $this->ask(__('DB Vision Host'), '127.0.0.1'),
-                'DB_VISION_PORT' => $this->ask(__('DB Vision Port'), '3306'),
-                'DB_VISION_DATABASE' => $this->ask(__(__('DB Vision Database')), 'vision'),
-                'DB_VISION_USERNAME' => $this->ask(__(__('DB Vision Username')), 'root'),
-                'DB_VISION_PASSWORD' => $this->secret(__('DB Vision Password')) ?? ''
+                ], config('app.debug')),
+                'APP_URL' => $this->ask(__('Application URL'), config('app.url')),
+                'DB_HOST' => $this->ask(__('DB Host'), config('database.connections.mysql.host')),
+                'DB_PORT' => $this->ask(__('DB Port'), config('database.connections.mysql.port')),
+                'DB_DATABASE' => $this->ask(__(__('DB Database')), config('database.connections.mysql.database')),
+                'DB_USERNAME' => $this->ask(__(__('DB Username')), config('database.connections.mysql.username')),
+                'DB_PASSWORD' => $this->secret(__('DB Password')) ?? config('database.connections.mysql.password'),
+                'DB_VISION_HOST' => $this->ask(__('DB Vision Host'), config('database.connections.vision.host')),
+                'DB_VISION_PORT' => $this->ask(__('DB Vision Port'), config('database.connections.vision.port')),
+                'DB_VISION_DATABASE' => $this->ask(__(__('DB Vision Database')), config('database.connections.vision.database')),
+                'DB_VISION_USERNAME' => $this->ask(__(__('DB Vision Username')), config('database.connections.vision.username')),
+                'DB_VISION_PASSWORD' => $this->secret(__('DB Vision Password')) ?? config('database.connections.vision.password')
             ]);
 
             $this->call('key:generate', [
