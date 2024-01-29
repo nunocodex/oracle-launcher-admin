@@ -33,12 +33,16 @@ class LoginRewardResource extends VisionResource
         return [
             'month' => [
                 'required',
-                Rule::unique(static::$model, 'day'),
+                Rule::unique(static::$model, 'month')
+                    ->ignore($model)
+                    ->whereNot('day', request()->input('day')),
             ],
 
             'day' => [
                 'required',
-                Rule::unique(static::$model, 'month'),
+                Rule::unique(static::$model, 'day')
+                    ->ignore($model)
+                    ->whereNot('month', request()->input('month')),
             ]
         ];
     }
