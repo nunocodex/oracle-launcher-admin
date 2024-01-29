@@ -29,58 +29,56 @@ class Install extends Command
      */
     public function handle(): void
     {
-        if (!$this->input->isInteractive()) {
-            $this->info(__('Interactive not available, please connect directly to the machine and run again the command.'));
-        } else {
-            if ($this->confirm('Are you sure you want to application install?', true)) {
-                $this->createEnvIfNotExists();
+        if ($this->confirm('Are you sure you want to application install?', true)) {
+            $this->createEnvIfNotExists();
 
-                $this->changeEnv([
-                    'APP_NAME' => $this->ask(__('Application Name'), 'Laravel'),
-                    'APP_ENV' => $this->choice(__('Application Environment'), [
-                        'local', 'development', 'production'
-                    ]),
-                    'APP_DEBUG' => $this->choice(__('Application Debug'), [
-                        'true', 'false'
-                    ]),
-                    'APP_URL' => $this->ask(__('Application URL'), 'http://localhost'),
-                    'DB_HOST' => $this->ask(__('DB Host'), '127.0.0.1'),
-                    'DB_PORT' => $this->ask(__('DB Port'), '3306'),
-                    'DB_DATABASE' => $this->ask(__(__('DB Database')), 'launcher'),
-                    'DB_USERNAME' => $this->ask(__(__('DB Username')), 'root'),
-                    'DB_PASSWORD' => $this->secret(__('DB Password')) ?? '',
-                    'DB_VISION_HOST' => $this->ask(__('DB Vision Host'), '127.0.0.1'),
-                    'DB_VISION_PORT' => $this->ask(__('DB Vision Port'), '3306'),
-                    'DB_VISION_DATABASE' => $this->ask(__(__('DB Vision Database')), 'vision'),
-                    'DB_VISION_USERNAME' => $this->ask(__(__('DB Vision Username')), 'root'),
-                    'DB_VISION_PASSWORD' => $this->secret(__('DB Vision Password')) ?? ''
-                ]);
+            $this->changeEnv([
+                'APP_NAME' => $this->ask(__('Application Name'), 'Laravel'),
+                'APP_ENV' => $this->choice(__('Application Environment'), [
+                    'local', 'development', 'production'
+                ]),
+                'APP_DEBUG' => $this->choice(__('Application Debug'), [
+                    'true', 'false'
+                ]),
+                'APP_URL' => $this->ask(__('Application URL'), 'http://localhost'),
+                'DB_HOST' => $this->ask(__('DB Host'), '127.0.0.1'),
+                'DB_PORT' => $this->ask(__('DB Port'), '3306'),
+                'DB_DATABASE' => $this->ask(__(__('DB Database')), 'launcher'),
+                'DB_USERNAME' => $this->ask(__(__('DB Username')), 'root'),
+                'DB_PASSWORD' => $this->secret(__('DB Password')) ?? '',
+                'DB_VISION_HOST' => $this->ask(__('DB Vision Host'), '127.0.0.1'),
+                'DB_VISION_PORT' => $this->ask(__('DB Vision Port'), '3306'),
+                'DB_VISION_DATABASE' => $this->ask(__(__('DB Vision Database')), 'vision'),
+                'DB_VISION_USERNAME' => $this->ask(__(__('DB Vision Username')), 'root'),
+                'DB_VISION_PASSWORD' => $this->secret(__('DB Vision Password')) ?? ''
+            ]);
 
-                $this->call('key:generate');
+            $this->call('key:generate', [
+                '--ansi' => true
+            ]);
 
-                $this->call('orchid:install');
+            $this->call('migrate', [
+                '--force' => true
+            ]);
 
-                if ($this->confirm('Do you want to create the orchid admin user?', true)) {
-                    $this->call('orchid:admin');
-                }
+            $this->call('orchid:install');
 
-                $this->call('view:clear');
-                $this->call('config:clear');
-                $this->call('cache:clear');
-                $this->call('route:clear');
-
-                $this->call('migrate', [
-                    '--force' => true
-                ]);
-
-                if (!App::environment('production')) {
-                    $this->call('ide-helper:models', [
-                        '-W' => true
-                    ]);
-                }
-
-                $this->info('Application installed successfully.');
+            if ($this->confirm('Do you want to create the orchid admin user?', true)) {
+                $this->call('orchid:admin');
             }
+
+            $this->call('view:clear');
+            $this->call('config:clear');
+            $this->call('cache:clear');
+            $this->call('route:clear');
+
+            if (!App::environment('production')) {
+                $this->call('ide-helper:models', [
+                    '-W' => true
+                ]);
+            }
+
+            $this->info('Application installed successfully.');
         }
     }
 
