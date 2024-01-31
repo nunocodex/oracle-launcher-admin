@@ -32,7 +32,7 @@ class Install extends Command
         if ($this->confirm('Are you sure you want to application install?', true)) {
             $this->createEnvIfNotExists();
 
-            $this->changeEnv([
+            $install = $this->changeEnv([
                 'APP_NAME' => $this->ask(__('Application Name'), config('app.name')),
                 'APP_ENV' => $this->choice(__('Application Environment'), [
                     'local', 'development', 'production'
@@ -53,30 +53,37 @@ class Install extends Command
                 'DB_VISION_PASSWORD' => $this->secret(__('DB Vision Password')) ?? config('database.connections.vision.password')
             ]);
 
-            $this->call('key:generate', [
-                '--ansi' => true
-            ]);
-
-            $this->call('migrate', [
-                '--force' => true
-            ]);
-
-            if ($this->confirm('Do you want to create the orchid admin user?', true)) {
-                $this->call('orchid:admin');
-            }
-
-            $this->call('view:clear');
-            $this->call('config:clear');
-            $this->call('cache:clear');
-            $this->call('route:clear');
-
-            if (!App::environment('production')) {
-                $this->call('ide-helper:models', [
-                    '-W' => true
+            if ($install) {
+                $this->call('key:generate', [
+                    '--ansi' => true
                 ]);
-            }
 
-            $this->info('Application installed successfully.');
+                $this->call('migrate', [
+                    '--force' => true
+                ]);
+
+                $this->call('storage:link');
+                $this->call('orchid:publish');
+
+                if ($this->confirm('Do you want to create the orchid admin user?', true)) {
+                    $this->call('orchid:admin');
+                }
+
+                $this->call('view:clear');
+                $this->call('config:clear');
+                $this->call('cache:clear');
+                $this->call('route:clear');
+
+                if (!App::environment('production')) {
+                    $this->call('ide-helper:models', [
+                        '-W' => true
+                    ]);
+                }
+
+                $this->info('Application installed successfully.');
+            } else {
+                $this->call('app:install');
+            }
         }
     }
 
