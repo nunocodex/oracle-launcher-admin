@@ -5,11 +5,10 @@ namespace App\Orchid\Resources\Vision;
 use App\Models\Vision\AccountData;
 use App\Orchid\Resources\VisionResource;
 use App\Orchid\Screens\Layouts\Avatar;
-use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Orchid\Crud\ResourceRequest;
-use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
@@ -59,11 +58,9 @@ class AccountDataResource extends VisionResource
     public function fields(): array
     {
         return [
-            Cropper::make('avatar.image_url')
-                ->targetUrl()
-                ->width(80)
-                ->height(80)
-                ->title('Avatar')
+            Input::make('avatar.image_url')
+                ->type('url')
+                ->title('Avatar URL')
                 ->required(),
 
             Input::make('account')
@@ -101,7 +98,7 @@ class AccountDataResource extends VisionResource
     {
         return [
             TD::make('avatar.image_url', __('Avatar'))
-                ->render(fn(AccountData $model) => $model->presenter() ? new Avatar($model->presenter()) : '')
+                ->render(fn(AccountData $model) => $model->presenter()?->image() ? new Avatar($model->presenter()) : '')
                 ->cantHide(),
 
             TD::make('account', __('Account'))
@@ -112,7 +109,7 @@ class AccountDataResource extends VisionResource
             TD::make('last_ip_address', __('Last IP Address')),
             TD::make('access_token', __('Access Token')),
             TD::make('token_valid_until', __('Token Valid Until'))
-                ->render(fn(AccountData $model) => Carbon::parse($model->token_valid_until)->format(config('app.default_datetime_format'))),
+                ->render(fn(AccountData $model) => date(config('app.default_datetime_format'), $model->token_valid_until)),
 
             TD::make('public_nickname', __('Public Nickname'))
                 ->cantHide(),
@@ -139,6 +136,9 @@ class AccountDataResource extends VisionResource
         return [];
     }
 
+    /**
+     * @throws Exception
+     */
     public function onSave(ResourceRequest $request, AccountData $model): void
     {
         $model->forceFill($request->except([

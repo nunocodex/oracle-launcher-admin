@@ -4,6 +4,7 @@
 /public/hot
 /public/storage
 /public/vision
+/public/vision_files
 /storage/*.key
 /vendor
 .env

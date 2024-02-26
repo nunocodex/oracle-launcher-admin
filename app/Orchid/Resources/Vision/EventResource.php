@@ -6,7 +6,6 @@ use App\Models\Vision\Event;
 use App\Orchid\Resources\VisionResource;
 use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Picture;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
@@ -33,9 +32,9 @@ class EventResource extends VisionResource
     public function fields(): array
     {
         return [
-            Picture::make('picture_url')
-                ->targetUrl()
-                ->title('Picture')
+            Input::make('picture_url')
+                ->type('url')
+                ->title('Picture URL')
                 ->required(),
 
             Input::make('redirect_url')

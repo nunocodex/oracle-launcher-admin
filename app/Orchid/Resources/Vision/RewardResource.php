@@ -6,7 +6,6 @@ use App\Models\Vision\Reward;
 use App\Orchid\Resources\VisionResource;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Picture;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
@@ -36,9 +35,9 @@ class RewardResource extends VisionResource
             Input::make('title')
                 ->title(__('Title'))
                 ->required(),
-            Picture::make('picture_url')
-                ->targetUrl()
-                ->title('Picture')
+            Input::make('picture_url')
+                ->type('url')
+                ->title('Picture URL')
                 ->required(),
             TextArea::make('description')
                 ->title(__('Description'))

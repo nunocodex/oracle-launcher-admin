@@ -44,10 +44,18 @@ return [
             'throw' => false,
         ],
 
-        'vision' => [
+        'vision_articles' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/vision_uploads'),
-            'url' => env('APP_URL') . '/storage/vision_uploads',
+            'root' => storage_path('app/vision/articles'),
+            'url' => env('APP_URL') . '/vision_files/articles',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'vision_avatars' => [
+            'driver' => 'local',
+            'root' => storage_path('app/vision/avatars'),
+            'url' => env('APP_URL') . '/vision_files/avatars',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -79,6 +87,7 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('vision_files') => storage_path('app/vision'),
     ],
 
 ];

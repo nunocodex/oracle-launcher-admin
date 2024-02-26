@@ -9,11 +9,11 @@ use App\Orchid\Resources\VisionResource;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Picture;
 use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
+use Throwable;
 
 class ArticleResource extends VisionResource
 {
@@ -39,6 +39,7 @@ class ArticleResource extends VisionResource
      *
      * @return array
      * @throws BindingResolutionException
+     * @throws Throwable
      */
     public function fields(): array
     {
@@ -48,9 +49,9 @@ class ArticleResource extends VisionResource
                 ->title(__('Account'))
                 ->required(),
 
-            Picture::make('picture_url')
-                ->targetUrl()
-                ->title('Picture')
+            Input::make('picture_url')
+                ->type('url')
+                ->title(__('Picture URL'))
                 ->required(),
 
             Input::make('redirect_url')
@@ -93,7 +94,7 @@ class ArticleResource extends VisionResource
             TD::make('title', __('Title')),
 
             TD::make('picture_url', __('Picture'))
-                ->render(fn(Article $model) => $model->picture_thumbnail)
+                ->render(fn(Article $model) => str_ends_with($model->picture_url, '.mp4') ? $model->movie_thumbnail : $model->picture_thumbnail)
                 ->cantHide(),
 
             TD::make('location', __('Position'))

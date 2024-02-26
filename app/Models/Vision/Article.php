@@ -3,11 +3,12 @@
 namespace App\Models\Vision;
 
 use App\Models\VisionModel;
-use Eloquent;
+use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Orchid\Filters\Filterable;
+use Orchid\Filters\HttpFilter;
 use Orchid\Screen\AsSource;
 
 /**
@@ -16,7 +17,7 @@ use Orchid\Screen\AsSource;
  * @property-read AccountData|null $author
  * @property-read ArticlePosition|null $location
  * @method static Builder|Article defaultSort(string $column, string $direction = 'asc')
- * @method static Builder|Article filters(?mixed $kit = null, ?\Orchid\Filters\HttpFilter $httpFilter = null)
+ * @method static Builder|Article filters(?mixed $kit = null, ?HttpFilter $httpFilter = null)
  * @method static Builder|Article filtersApply(iterable $filters = [])
  * @method static Builder|Article filtersApplySelection($class)
  * @method static Builder|Article newModelQuery()
@@ -39,15 +40,17 @@ use Orchid\Screen\AsSource;
  * @method static Builder|Article whereRedirectUrl($value)
  * @method static Builder|Article whereTitle($value)
  * @property-read string $picture_thumbnail
+ * @property-read string $movie_thumbnail
  * @mixin Eloquent
  */
 class Article extends VisionModel
 {
     use AsSource, Filterable;
-    
+
     protected $fillable = [
         'author_id',
         'picture_url',
+        'attachment_id',
         'redirect_url',
         'title',
         'content',
@@ -72,5 +75,14 @@ class Article extends VisionModel
     public function getPictureThumbnailAttribute(): string
     {
         return '<img src="' . $this->picture_url . '" style="width:40px; height:40px;">';
+    }
+
+    public function getMovieThumbnailAttribute(): string
+    {
+        return '
+<video width="40" height="40">
+    <source src="' . $this->picture_url . '" type="video/mp4">
+</video>
+        ';
     }
 }

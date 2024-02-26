@@ -17,6 +17,8 @@ return [
 
     'default' => env('DB_CONNECTION', 'mysql'),
 
+    'vision' => env('DB_VISION_CONNECTION', 'vision'),
+
     /*
     |--------------------------------------------------------------------------
     | Database Connections
@@ -32,8 +34,6 @@ return [
     | choice installed on your machine before you begin development.
     |
     */
-
-    'vision' => env('DB_VISION_CONNECTION', 'vision'),
 
     'connections' => [
 

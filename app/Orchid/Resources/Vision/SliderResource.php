@@ -4,7 +4,7 @@ namespace App\Orchid\Resources\Vision;
 
 use App\Models\Vision\Slider;
 use App\Orchid\Resources\VisionResource;
-use Orchid\Screen\Fields\Picture;
+use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
 
@@ -25,9 +25,9 @@ class SliderResource extends VisionResource
     public function fields(): array
     {
         return [
-            Picture::make('image_url')
-                ->targetUrl()
-                ->title('Image')
+            Input::make('image_url')
+                ->type('url')
+                ->title('Image URL')
                 ->required(),
         ];
     }
