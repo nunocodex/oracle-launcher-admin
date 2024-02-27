@@ -7,7 +7,6 @@ use App\Models\Vision\ChangelogCategory;
 use App\Orchid\Resources\VisionResource;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Orchid\Screen\Actions\Link;
-use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Relation;
@@ -43,11 +42,9 @@ class ChangelogResource extends VisionResource
                 ->title(__('Category'))
                 ->required(),
 
-            Cropper::make('icon_url')
-                ->targetUrl()
-                ->width(80)
-                ->height(80)
-                ->title('Icon')
+            Input::make('icon_url')
+                ->type('url')
+                ->title('Icon URL')
                 ->required(),
 
             Input::make('title')
