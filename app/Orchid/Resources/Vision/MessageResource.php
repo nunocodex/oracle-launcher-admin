@@ -38,7 +38,7 @@ class MessageResource extends VisionResource
         return [
             Relation::make('parent_id')
                 ->fromModel(Message::class, 'title')
-                ->allowEmpty()
+                //->allowEmpty()
                 ->value(0)
                 ->title(__('Parent')),
 

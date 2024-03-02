@@ -4,9 +4,11 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 use App\Models\Vision\AccountData;
+use App\Models\Vision\Message;
 use App\Models\VisionModel;
 use App\Models\VisionReadOnlyModel;
 use App\Policies\Vision\AccountDataPolicy;
+use App\Policies\Vision\MessagePolicy;
 use App\Policies\VisionPolicy;
 use App\Policies\VisionReadOnlyPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -20,6 +22,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         AccountData::class => AccountDataPolicy::class,
+        Message::class => MessagePolicy::class,
         VisionModel::class => VisionPolicy::class,
         VisionReadOnlyModel::class => VisionReadOnlyPolicy::class
     ];
