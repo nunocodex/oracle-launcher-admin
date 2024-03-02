@@ -1,6 +1,6 @@
 # Note
 
-This project only manages the "Oracle Launcher" database.
+This project only manages the "Oracle Launcher V2" database.
 
 # Pre Install
 

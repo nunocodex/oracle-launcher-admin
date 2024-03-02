@@ -1,7 +1,7 @@
 {
-    "name": "nunocodex/oracle-launcher-manager",
+    "name": "nunocodex/admin-panel-oracle-launcher-v2",
     "type": "project",
-    "description": "Manage Oracle Launcher",
+    "description": "Admin Panel for Oracle Launcher v2",
     "keywords": [
         "laravel",
         "framework"
