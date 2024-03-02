@@ -44,22 +44,6 @@ return [
             'throw' => false,
         ],
 
-        'vision_articles' => [
-            'driver' => 'local',
-            'root' => storage_path('app/vision/articles'),
-            'url' => env('APP_URL') . '/vision_files/articles',
-            'visibility' => 'public',
-            'throw' => false,
-        ],
-
-        'vision_avatars' => [
-            'driver' => 'local',
-            'root' => storage_path('app/vision/avatars'),
-            'url' => env('APP_URL') . '/vision_files/avatars',
-            'visibility' => 'public',
-            'throw' => false,
-        ],
-
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
