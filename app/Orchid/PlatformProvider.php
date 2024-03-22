@@ -72,19 +72,6 @@ class PlatformProvider extends OrchidServiceProvider
                         ])
                 ]),
 
-            Menu::make(__('Changelogs'))
-                ->icon('bi.journals')
-                ->route('platform.resource.list', [
-                    'resource' => 'changelog-resources'
-                ])
-                ->permission('platform.vision.changelogs')
-                ->list([
-                    Menu::make(__('Categories'))
-                        ->route('platform.resource.list', [
-                            'resource' => 'changelog-category-resources'
-                        ])
-                ]),
-
             Menu::make(__('Events'))
                 ->icon('bi.calendar-event')
                 ->route('platform.resource.list', [
