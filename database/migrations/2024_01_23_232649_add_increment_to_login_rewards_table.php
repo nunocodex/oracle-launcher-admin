@@ -10,9 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::connection('vision')->table('login_rewards', function (Blueprint $table) {
-            $table->increments('id');
-        });
+        $connection = Schema::connection('vision');
+
+        if (!$connection->hasColumn('login_rewards', 'id')) {
+            $connection->table('login_rewards', function (Blueprint $table) {
+                $table->increments('id');
+            });
+        }
     }
 
     /**
@@ -20,8 +24,12 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::connection('vision')->table('login_rewards', function (Blueprint $table) {
-            $table->dropColumn('id');
-        });
+        $connection = Schema::connection('vision');
+
+        if ($connection->hasColumn('login_rewards', 'id')) {
+            $connection->table('login_rewards', function (Blueprint $table) {
+                $table->dropColumn('id');
+            });
+        }
     }
 };
