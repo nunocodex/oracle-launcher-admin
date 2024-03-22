@@ -146,7 +146,7 @@ class AccountDataResource extends VisionResource
         ]))->save();
 
         if (!$model->avatar) {
-            $avatar = new \App\Models\Vision\Avatar();
+            $avatar = new \App\Models\Vision\AccountAvatar();
             $avatar->image_url = $request->input('avatar.image_url');
             $avatar->account_id = $model->id;
             $avatar->save();

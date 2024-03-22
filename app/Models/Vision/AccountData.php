@@ -15,7 +15,7 @@ use Orchid\Screen\AsSource;
 /**
  * App\Models\Vision\AccountData
  *
- * @property-read Avatar|null $avatar
+ * @property-read AccountAvatar|null $avatar
  * @property-read Collection<int, AccountInventory> $inventories
  * @property-read int|null $inventories_count
  * @property-read Collection<int, Reward> $rewards
@@ -68,7 +68,7 @@ class AccountData extends VisionModel
 
     public function avatar(): BelongsTo
     {
-        return $this->belongsTo(Avatar::class, 'id', 'account_id');
+        return $this->belongsTo(AccountAvatar::class, 'id', 'account_id');
     }
 
     public function presenter(): ?AvatarPresenter
