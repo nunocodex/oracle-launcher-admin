@@ -15,9 +15,9 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'oracle-admin-panel'),
 
-    'vision' => env('DB_VISION_CONNECTION', 'vision'),
+    'vision' => env('DB_VISION_CONNECTION', 'oracle-vision-api'),
 
     /*
     |--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ return [
 
     'connections' => [
 
-        'mysql' => [
+        'oracle-admin-panel' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
@@ -57,7 +57,7 @@ return [
             ]) : [],
         ],
 
-        'vision' => [
+        'oracle-vision-api' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_VISION_URL'),
             'host' => env('DB_VISION_HOST', '127.0.0.1'),
