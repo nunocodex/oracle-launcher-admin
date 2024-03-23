@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        $connection = Schema::connection('vision');
+        $connection = Schema::connection('oracle-vision-api');
 
         if (!$connection->hasColumn('login_rewards', 'id')) {
             $connection->table('login_rewards', function (Blueprint $table) {
@@ -24,7 +24,7 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        $connection = Schema::connection('vision');
+        $connection = Schema::connection('oracle-vision-api');
 
         if ($connection->hasColumn('login_rewards', 'id')) {
             $connection->table('login_rewards', function (Blueprint $table) {
