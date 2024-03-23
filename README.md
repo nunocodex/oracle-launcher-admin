@@ -6,14 +6,8 @@ This project only manages the "Oracle Launcher V2" database.
 
 Copy this project to your root web source.
 
+If you use Apache update the DocumentRoot to point {project}/public.
+
 # Install
 
-Follow the Laravel install/setup procedure.
-
-# Post Install
-
-Run command shell `composer install`
-
-# Setup
-
-Run command shell `php artisan app:install`
+Go to your web site URL and follow the Setup Wizard.
