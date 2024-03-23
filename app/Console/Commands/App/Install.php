@@ -38,7 +38,7 @@ class Install extends Command
                     'local', 'development', 'production'
                 ], config('app.env')),
                 'APP_DEBUG' => $this->choice(__('Application Debug'), [
-                    'true', 'false'
+                    true, false
                 ], config('app.debug')),
                 'APP_URL' => $this->ask(__('Application URL'), config('app.url')),
                 'DB_HOST' => $this->ask(__('DB Host'), config('database.connections.mysql.host')),
