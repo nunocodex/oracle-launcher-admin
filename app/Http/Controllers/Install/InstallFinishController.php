@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use JsonException;
 
 class InstallFinishController extends Controller
@@ -53,26 +54,21 @@ class InstallFinishController extends Controller
             return redirect()->route('install.database');
         }
 
-        if (config('installer.admin_area.user')) {
-            $users = User::query()
-                ->count();
+        $config = config('installer.admin_area.user');
 
-            if ($users) {
-                $admin = User::query()
-                    ->where('name', config('installer.admin_area.user.name'))
-                    ->where('email', config('installer.admin_area.user.email'))
-                    ->first();
+        if ($config) {
+            $admin = User::find(1);
 
-                if (!$admin) {
-                    $user = new User();
-                    $user->name = config('installer.admin_area.user.name');
-                    $user->email = config('installer.admin_area.user.email');
-                    $user->password = \Hash::make(config('installer.admin_area.user.password'));
-                    $user->permissions = json_decode('{"platform.index": "1", "platform.systems.roles": "1", "platform.systems.users": "1", "platform.systems.attachment": "1"}');
-                    $user->save();
-                }
+            if (!$admin) {
+                $admin = new User();
+
+                $admin->name = $config['name'];
+                $admin->email = $config['email'];
+                $admin->password = Hash::make($config['password']);
+                $admin->permissions = json_decode('{"platform.index": true, "platform.vision.faqs": true, "platform.vision.gifts": true, "platform.systems.roles": true, "platform.systems.users": true, "platform.vision.events": true, "platform.vision.rewards": true, "platform.vision.sliders": true, "platform.vision.accounts": true, "platform.vision.articles": true, "platform.vision.messages": true, "platform.vision.teleports": true, "platform.vision.changelogs": true, "platform.systems.attachment": true, "platform.vision.login_rewards": true}');
+
+                $admin->save();
             }
-
         }
 
         $data = [

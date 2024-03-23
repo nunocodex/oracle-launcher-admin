@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Install\InstallFinishController;
+use App\Http\Controllers\Install\InstallIndexController;
 use App\Http\Controllers\Install\InstallSetDatabaseController;
+use App\Http\Controllers\Install\InstallSetMigrationsController;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +28,9 @@ Route::group([
     'namespace' => 'App\Http\Controllers\Install',
     'middleware' => ['web', 'installer']
 ], static function () {
+    Route::get('/', ['as' => 'install.index', 'uses' => InstallIndexController::class]);
     Route::post('/database', ['uses' => InstallSetDatabaseController::class]);
+    Route::post('/migrations', ['uses' => InstallSetMigrationsController::class]);
     Route::get('/finish', ['as' => 'install.finish', 'uses' => InstallFinishController::class]);
 });
 
