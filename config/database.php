@@ -37,6 +37,8 @@ return [
 
     'connections' => [
 
+        'default' => 'oracle-admin-panel',
+
         'oracle-admin-panel' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
