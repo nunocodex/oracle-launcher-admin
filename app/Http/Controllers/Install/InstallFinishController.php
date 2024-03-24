@@ -18,7 +18,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 use JsonException;
 
 class InstallFinishController extends Controller
@@ -66,8 +65,9 @@ class InstallFinishController extends Controller
         Artisan::call('view:clear');
         Artisan::call('optimize:clear');
 
-        Session::remove('installer.admin');
-
-        return view('installer::steps.finish', ['base' => url('/'), 'login' => url(config('installer.login'))]);
+        return view('installer::steps.finish', [
+            'base' => url('/'),
+            'login' => url(config('installer.login'))
+        ]);
     }
 }

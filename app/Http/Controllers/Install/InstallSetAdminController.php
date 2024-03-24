@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Install;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class InstallSetAdminController extends Controller
 {
@@ -20,12 +22,7 @@ class InstallSetAdminController extends Controller
         $admin_password = $request->input('admin_password');
 
         if ($admin_username && $admin_email && $admin_password) {
-            $user = User::query()
-                ->where('name', $admin_username)
-                ->where('email', $admin_email)
-                ->get();
-
-            if (!$user) {
+            try {
                 $admin = new User();
 
                 $admin->name = $admin_username;
@@ -36,11 +33,14 @@ class InstallSetAdminController extends Controller
 
                 $admin->save();
 
-                session('installer.admin.account', [
-                    'username' => $admin_username,
+                Session::flash('installer.admin', [
                     'email' => $admin_email,
                     'password' => $admin_password
                 ]);
+            } catch (Exception $exception) {
+                return back()
+                    ->withErrors($exception->getMessage())
+                    ->withInput();
             }
         } elseif (!User::count()) {
             return back()
