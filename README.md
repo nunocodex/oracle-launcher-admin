@@ -1,19 +1,19 @@
 # Note
 
-This project only manages the "Oracle Launcher V2" database.
+This project only manages the "**Oracle Launcher V2**" database.
+
+This "**Laravel**" project has been modified at the request of users to use "`/`" as document root instead of the
+new "`/public`" standard. You can take advantage of the 2 systems, but I recommend the standard method for more
+compatibility.
 
 # Pre Install
 
-Flush the application database to install the application clean, which is very useful during development.
-
-Copy this project to your website.
-
-For Apache make DocumentRoot to `{project_root}/public`.
+Copy this project files to your website.
 
 # Install
 
-Using your browser, go to the url of the application.
+Using your browser, go to the url of the website.
 
 # Update
 
-Remove the `{project_root}/storage/installed` file and open the website with your browser.
+Remove the `{website_root}/storage/installed` file and open the website with your browser.
