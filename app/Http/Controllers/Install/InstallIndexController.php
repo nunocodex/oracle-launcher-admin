@@ -20,14 +20,6 @@ class InstallIndexController extends Controller
 
     public function __invoke(): Factory|View|Application
     {
-        if (!file_exists(base_path('.env'))) {
-            if (file_exists(base_path('.env.example'))) {
-                copy(base_path('.env.example'), base_path('.env'));
-            } else {
-                touch(base_path('.env'));
-            }
-        }
-        
         return view('installer::steps.welcome');
     }
 }
