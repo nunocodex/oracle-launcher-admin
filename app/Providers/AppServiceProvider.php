@@ -21,13 +21,5 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Schema::defaultStringLength(191);
-
-        if (!file_exists(base_path('.env'))) {
-            if (file_exists(base_path('.env.example'))) {
-                copy(base_path('.env.example'), base_path('.env'));
-            } else {
-                touch(base_path('.env'));
-            }
-        }
     }
 }

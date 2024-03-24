@@ -74,12 +74,12 @@ class InstallSetDatabaseController extends Controller
             if ($request->input('database_vision_prefix')) {
                 $this->envEditor->setKey('DB_VISION_PREFIX', $request->input('database_vision_prefix'));
             }
-            
+
             $this->envEditor->save();
         } catch (Exception $e) {
             return back()->withErrors($e->getMessage())->withInput();
         }
 
-        return redirect()->route('install.migrations');
+        return redirect()->route('install.admin');
     }
 }

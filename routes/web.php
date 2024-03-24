@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Install\InstallAdminController;
 use App\Http\Controllers\Install\InstallFinishController;
 use App\Http\Controllers\Install\InstallIndexController;
+use App\Http\Controllers\Install\InstallSetAdminController;
 use App\Http\Controllers\Install\InstallSetDatabaseController;
 use App\Http\Controllers\Install\InstallSetMigrationsController;
 use App\Providers\RouteServiceProvider;
@@ -30,6 +32,8 @@ Route::group([
 ], static function () {
     Route::get('/', ['as' => 'install.index', 'uses' => InstallIndexController::class]);
     Route::post('/database', ['uses' => InstallSetDatabaseController::class]);
+    Route::get('/admin', ['as' => 'install.admin', 'uses' => InstallAdminController::class]);
+    Route::post('/admin', ['uses' => InstallSetAdminController::class]);
     Route::post('/migrations', ['uses' => InstallSetMigrationsController::class]);
     Route::get('/finish', ['as' => 'install.finish', 'uses' => InstallFinishController::class]);
 });

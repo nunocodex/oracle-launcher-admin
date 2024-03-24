@@ -30,7 +30,7 @@
             </p>
         </div>
 
-        @if(config('installer.admin_area'))
+        @if(session('admin'))
             <div>
                 <p class="pb-3 text-gray-800">
                     <b>Administration Area</b>
@@ -41,11 +41,11 @@
                     <a class="text-blue-500 hover:underline" href="{{ $login }}">{{ $login }}</a>
                 </p>
 
-                @if(config('installer.admin_area.user'))
+                @if(session('installer.admin'))
                     <p class="pb-3 text-gray-800">
-                        Email: <b>{{ config('installer.admin_area.user.email') }}</b>
+                        Email: <b>{{ session('installer.admin.email') }}</b>
                         <br>
-                        Password: <b>{{ config('installer.admin_area.user.password') }}</b>
+                        Password: <b>{{ session('installer.admin.password') }}</b>
                     </p>
                 @endif
             </div>
