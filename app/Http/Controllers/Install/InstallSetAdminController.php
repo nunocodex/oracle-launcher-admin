@@ -36,14 +36,18 @@ class InstallSetAdminController extends Controller
 
                 $admin->save();
 
-                session('installer.admin', [
+                session('installer.admin.account', [
                     'username' => $admin_username,
                     'email' => $admin_email,
                     'password' => $admin_password
                 ]);
             }
+        } elseif (!User::count()) {
+            return back()
+                ->withErrors(__('No admin account, required create one.'))
+                ->withInput();
         }
 
-        return redirect()->route('install.migrations');
+        return redirect()->route('install.finish');
     }
 }

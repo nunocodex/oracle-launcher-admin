@@ -80,6 +80,6 @@ class InstallSetDatabaseController extends Controller
             return back()->withErrors($e->getMessage())->withInput();
         }
 
-        return redirect()->route('install.admin');
+        return redirect()->route('install.migrations');
     }
 }

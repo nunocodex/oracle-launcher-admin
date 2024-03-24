@@ -41,11 +41,11 @@
                     <a class="text-blue-500 hover:underline" href="{{ $login }}">{{ $login }}</a>
                 </p>
 
-                @if(session('installer.admin'))
+                @if(session('installer.admin.account'))
                     <p class="pb-3 text-gray-800">
-                        Email: <b>{{ session('installer.admin.email') }}</b>
+                        Email: <b>{{ session('installer.admin.account.email') }}</b>
                         <br>
-                        Password: <b>{{ session('installer.admin.password') }}</b>
+                        Password: <b>{{ session('installer.admin.account.password') }}</b>
                     </p>
                 @endif
             </div>
