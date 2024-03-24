@@ -30,7 +30,7 @@
             </p>
         </div>
 
-        @if(session('admin'))
+        @if(session('installer.admin.account'))
             <div>
                 <p class="pb-3 text-gray-800">
                     <b>Administration Area</b>
